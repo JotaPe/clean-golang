@@ -49,7 +49,14 @@ func (*repo) Save(post *entity.Post) (*entity.Post, error) {
 		Title: post.Title,
 		Text:  post.Text,
 	}
-	result := DB.Create(&entity)
+	entityInsert := Post{
+		ID:        post.ID,
+		Title:     post.Title,
+		Text:      post.Title,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	result := DB.Create(&entityInsert)
 	if result.Error != nil {
 		log.Fatal(err)
 	}
