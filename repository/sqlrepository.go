@@ -58,8 +58,9 @@ func (*repo) Save(post *entity.Post) (*entity.Post, error) {
 }
 
 func (*repo) FindAll() (*[]entity.Post, error) {
+	entityToFind := []Post{}
 	entities := []entity.Post{}
-	result := DB.Find(&Post{}).Scan(&entities)
+	result := DB.Find(&entityToFind).Scan(&entities)
 	if result.Error != nil {
 		log.Fatal(result.Error)
 	}
