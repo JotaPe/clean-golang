@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"gorm.io/driver/postgres"
-	//"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -31,7 +30,9 @@ func NewSqlRepository() PostRepository {
 	DB, err = gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,
 		PreferSimpleProtocol: true,
-	}), &gorm.Config{})
+	}),
+		&gorm.Config{},
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
