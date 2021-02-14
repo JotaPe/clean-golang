@@ -14,6 +14,7 @@ type repo struct{}
 
 var DB *gorm.DB
 
+// Custom struct for SQL transactions
 type Post struct {
 	gorm.Model
 	ID        string

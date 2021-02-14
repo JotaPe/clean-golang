@@ -14,6 +14,9 @@ var (
 func TestGenerateEveryRun(t *testing.T) {
 	var err error
 	generateId, err := uuid.NewV4()
+	if err != nil {
+		t.Error(err)
+	}
 	generate, err := postRepository.Save(&entity.Post{ID: generateId.String(), Title: "Test Title", Text: "Test Text"})
 	if err != nil {
 		t.Error(err)
