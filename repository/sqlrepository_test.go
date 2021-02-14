@@ -3,7 +3,7 @@ package repository
 import (
 	"clean-arch/entity"
 	"clean-arch/repository"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 	"testing"
 )
 
@@ -12,8 +12,9 @@ var (
 )
 
 func TestGenerateEveryRun(t *testing.T) {
-	generateId := uuid.NewString()
-	generate, err := postRepository.Save(&entity.Post{ID: generateId, Title: "Test Title", Text: "Test Text"})
+	var err error
+	generateId, err := uuid.NewV4()
+	generate, err := postRepository.Save(&entity.Post{ID: generateId.String(), Title: "Test Title", Text: "Test Text"})
 	if err != nil {
 		t.Error(err)
 	}
