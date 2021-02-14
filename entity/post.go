@@ -5,11 +5,3 @@ type Post struct {
 	Title string
 	Text  string
 }
-
-func CreatePost(id, title, text string) Post {
-	return Post{
-		ID:    id,
-		Title: title,
-		Text:  text,
-	}
-}

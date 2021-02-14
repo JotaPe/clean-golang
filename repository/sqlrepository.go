@@ -16,12 +16,11 @@ var DB *gorm.DB
 
 type Post struct {
 	gorm.Model
-	ID        string `gorm:"primaryKey"`
+	ID        string
 	Title     string
 	Text      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt time.Time `gorm:"index"`
 }
 
 func NewSqlRepository() PostRepository {
@@ -50,11 +49,9 @@ func (*repo) Save(post *entity.Post) (*entity.Post, error) {
 		Text:  post.Text,
 	}
 	entityInsert := Post{
-		ID:        post.ID,
-		Title:     post.Title,
-		Text:      post.Title,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		ID:    post.ID,
+		Title: post.Title,
+		Text:  post.Text,
 	}
 	result := DB.Create(&entityInsert)
 	if result.Error != nil {
@@ -65,8 +62,8 @@ func (*repo) Save(post *entity.Post) (*entity.Post, error) {
 }
 
 func (*repo) FindAll() (*[]entity.Post, error) {
-	entityToFind := []Post{}
-	entities := []entity.Post{}
+	var entityToFind []Post
+	var entities []entity.Post
 	result := DB.Find(&entityToFind).Scan(&entities)
 	if result.Error != nil {
 		log.Fatal(result.Error)

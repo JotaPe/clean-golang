@@ -11,6 +11,15 @@ var (
 	postRepository repository.PostRepository = repository.NewSqlRepository()
 )
 
+func TestGenerateEveryRun(t *testing.T) {
+	generateId := uuid.NewString()
+	generate, err := postRepository.Save(&entity.Post{ID: generateId, Title: "Test Title", Text: "Test Text"})
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(generate)
+}
+
 func TestFindAll(t *testing.T) {
 	posts, err := postRepository.FindAll()
 	if err != nil {
@@ -19,13 +28,4 @@ func TestFindAll(t *testing.T) {
 	for i, s := range *posts {
 		t.Log(i, s)
 	}
-}
-
-func TestGenerateEveryRun(t *testing.T) {
-	generateId := uuid.NewString()
-	generate, err := postRepository.Save(&entity.Post{ID: generateId, Title: "Test Title", Text: "Test Text"})
-	if err != nil {
-		t.Error(err)
-	}
-	t.Log(generate)
 }
