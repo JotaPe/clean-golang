@@ -11,8 +11,6 @@ import (
 )
 
 func main() {
-	var err error
-	var generate *entity.Post
 	dsn := "host=localhost user=postgres password=docker dbname=pqgotest port=5432 sslmode=disable TimeZone=America/Sao_Paulo"
 	DB, err := gorm.Open(postgres.New(postgres.Config{
 		DSN:                  dsn,
@@ -29,7 +27,7 @@ func main() {
 
 	postRepository := repository.NewSqlRepository(DB)
 	generateID, _ := uuid.NewV4()
-	generate, err = postRepository.Save(&entity.Post{ID: generateID.String(), Title: "Test Title", Text: "Test Text"})
+	generate, _ := postRepository.Save(&entity.Post{ID: generateID.String(), Title: "Test Title", Text: "Test Text"})
 	log.Printf("Generated for FINDALL: %v", generate)
 
 	posts, err := postRepository.FindAll()
