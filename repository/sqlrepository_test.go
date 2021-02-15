@@ -1,5 +1,6 @@
 package repository
 
+/*
 import (
 	"clean-arch/entity"
 
@@ -18,7 +19,6 @@ type GormSuite struct {
 	mock sqlmock.Sqlmock
 }
 
-/*
 func TestGenerateEveryRun(t *testing.T) {
 	suite := &GormSuite{}
 	var (
