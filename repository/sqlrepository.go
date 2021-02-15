@@ -14,7 +14,7 @@ type repo struct {
 	DB *gorm.DB
 }
 
-// Custom struct for SQL transactions
+// Post custom struct for SQL transactions
 type Post struct {
 	gorm.Model
 	ID        string
@@ -24,6 +24,7 @@ type Post struct {
 	UpdatedAt time.Time
 }
 
+// NewSqlRepository is used to generate the common interface for PostRepository
 func NewSqlRepository(db *gorm.DB) PostRepository {
 	return &repo{DB: db}
 }
