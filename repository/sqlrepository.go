@@ -6,13 +6,13 @@ import (
 	"log"
 	"time"
 
-	"gorm.io/driver/postgres"
+	//"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-type repo struct{}
-
-var DB *gorm.DB
+type repo struct {
+	DB *gorm.DB
+}
 
 // Custom struct for SQL transactions
 type Post struct {
@@ -24,25 +24,11 @@ type Post struct {
 	UpdatedAt time.Time
 }
 
-func NewSqlRepository() PostRepository {
-	var err error
-	dsn := "host=localhost user=postgres password=docker dbname=pqgotest port=5432 sslmode=disable TimeZone=America/Sao_Paulo"
-	DB, err = gorm.Open(postgres.New(postgres.Config{
-		DSN:                  dsn,
-		PreferSimpleProtocol: true,
-	}),
-		&gorm.Config{},
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println("Connection with SQL database open")
-
-	DB.AutoMigrate(&Post{})
-	return &repo{}
+func NewSqlRepository(db *gorm.DB) PostRepository {
+	return &repo{DB: db}
 }
 
-func (*repo) Save(post *entity.Post) (*entity.Post, error) {
+func (repo *repo) Save(post *entity.Post) (*entity.Post, error) {
 	var err error
 	entity := entity.Post{
 		ID:    post.ID,
@@ -54,7 +40,7 @@ func (*repo) Save(post *entity.Post) (*entity.Post, error) {
 		Title: post.Title,
 		Text:  post.Text,
 	}
-	result := DB.Create(&entityInsert)
+	result := repo.DB.Create(&entityInsert)
 	if result.Error != nil {
 		log.Fatal(err)
 	}
@@ -62,10 +48,10 @@ func (*repo) Save(post *entity.Post) (*entity.Post, error) {
 	return &entity, nil
 }
 
-func (*repo) FindAll() (*[]entity.Post, error) {
+func (repo *repo) FindAll() (*[]entity.Post, error) {
 	var entityToFind []Post
 	var entities []entity.Post
-	result := DB.Find(&entityToFind).Scan(&entities)
+	result := repo.DB.Find(&entityToFind).Scan(&entities)
 	if result.Error != nil {
 		log.Fatal(result.Error)
 	}
