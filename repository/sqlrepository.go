@@ -17,6 +17,7 @@ type repo struct {
 // Post custom struct for SQL transactions
 type Post struct {
 	gorm.Model
+	entity.Post
 	ID        string
 	Title     string
 	Text      string
